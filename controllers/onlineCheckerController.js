@@ -8,11 +8,11 @@ const nodemailer = require("nodemailer");
 const axios = require('axios');
 
 // const dummy_ecom_axios_instance = axios.create({
-//     baseURL : 'localhost:5000'
+//     baseURL : 'http://127.0.0.1:5000'
 // })
 
 // const dummy_api_axios_instance = axios.create({
-//     baseURL : 'localhost:5001'
+//     baseURL : 'http://127.0.0.1:5001'
 // })
 
 const ecom_axios_instance = axios.create({
@@ -44,7 +44,7 @@ function send_email_ecom_down(){
         from: '"Ergonomyx Technologies Canada Inc." <hello@ergonomyx.ca>',
         to: ['hectorandres.pv@ergonomyx.com'], //could be devteam 
         subject: 'ECOM is down',
-        text: 'The Ecom site appears to be down' 
+        text: 'The Ecom site appears to be down,  also check app logs for false positives \n https://ergonomyx-ecommerce.herokuapp.com' 
     };
 
     transporter.sendMail(mailOptions, function(error, info){
@@ -68,7 +68,7 @@ function send_email_api_down(){
         from: '"Ergonomyx Technologies Canada Inc." <hello@ergonomyx.ca>',
         to: ['hectorandres.pv@ergonomyx.com'], //could be devteam 
         subject: 'API is down',
-        text: 'The Api site appears to be down' 
+        text: 'The Api site appears to be down, also check app logs for false positives \n https://ergonomyx-api.herokuapp.com' 
     };
 
     transporter.sendMail(mailOptions, function(error, info){
@@ -87,23 +87,70 @@ module.exports = {
 
     checkSitesAreUp : async(req,res) => {
 
-        //--------------------- check that ECOM is up (first axios instance)
-        //if not - send email notifying
-        console.log('\n ---- checking that ecom is up : ')
+        //---DUMMY ECOM --- TEST LOCAL 
+        // console.log('\n ---- checking that ecom is up : ')
+
+        // dummy_ecom_axios_instance.get('/')
+        // .then(async function(response){
+        //     console.log('dummy ecom response status: \n', response.status)
+        //     if(response.status != 200){
+        //         console.log('dummy ecom - endpoint success, but status isn\'t 200')
+        //     }
+        // })
+        // .catch(async function(error){
+        //     console.log('error checking ecom endpoint with axios')
+
+        //     if(error.response){
+        //         console.log('dummy ecom error.response.status \n ' , error.response.status)
+        //         send_email_ecom_down()
+        //     }else{
+        //         console.log('dummy ecom there was no response, sending email... \n ')
+        //         send_email_ecom_down()
+        //     }
+        // })
+
+        //---DUMMY API --- TEST LOCAL 
+        // console.log('\n ---- checking that ecom is up : ')
+        // console.log('\n ----checking that api is up : ')
+
+        // dummy_api_axios_instance.get('/')
+        // .then(async function(response){
+        //     console.log('dummy ecom response status: \n', response.status)
+        //     if(response.status != 200){
+        //         console.log('dummy api - endpoint success, but status isn\'t 200')
+        //     }
+        // })
+        // .catch(async function(error){
+        //   console.log('error checking ecom endpoint with axios')
+        //     if(error.response){
+        //         console.log('dummy api error.response.status \n ' , error.response.status)
+        //         send_email_api_down()
+        //     }else{
+        //         console.log('dummy api there was no response, sending email... \n ')
+        //         send_email_api_down()
+        //     }
+        // })
 
         //dummy_ecom_axios_instance.get('/')
+        console.log('\n ---- checking that ecom is up : ')
+
         ecom_axios_instance.get('/')
         .then(async function(response){
             console.log('ecom response status: \n', response.status)
-            //if the response status is not good, 
-            //console.log('send_email_ecom_down')
-            // send_email_ecom_down()
-            //don't return after execution, just continue !
+            if(response.status != 200){
+                console.log('ecom - endpoint success, but status isn\'t 200')
+            }
         })
         .catch(async function(error){
           console.log('error checking ecom endpoint with axios')
         //   console.log('ecom error: \n ', error)
-            console.log('ecom error.response.status \n ' , error.response.status)
+            if(error.response){
+                console.log('ecom error.response.status \n ' , error.response.status)
+                send_email_ecom_down()
+            }else{// no response received, just error ocurred. 
+                console.log('ecom there was no response, sending email... \n ')
+                send_email_ecom_down()
+            }
         })
 
         //--------------------- check that API is up (second axios instance)
@@ -114,16 +161,20 @@ module.exports = {
         api_axios_instance.get('/')
         .then(async function(response){
             console.log('ecom response status: \n', response.status)
-            //if the response status is not good, 
-            //console.log('send_email_api_down')
-            // send_email_api_down()
-            //don't return after execution, just continue !
+            if(response.status != 200){
+                console.log('api - endpoint success, but status isn\'t 200')
+            }
         })
         .catch(async function(error){
           console.log('error checking ecom endpoint with axios')
         //   console.log('api error: \n ', error)
-          console.log('api error.response.status \n ' , error.response.status)
-
+            if(error.response){
+                console.log('ecom error.response.status \n ' , error.response.status)
+                send_email_api_down()
+            }else{// no response received, just error ocurred. 
+                console.log('ecom there was no response, sending email... \n ')
+                send_email_api_down()
+            }
         })
 
         //sending respective emails if either is failing 
