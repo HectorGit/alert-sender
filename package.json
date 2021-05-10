@@ -1,7 +1,7 @@
 {
-  "name": "hectorpracticeapi",
+  "name": "alert-sender",
   "version": "1.0.0",
-  "description": "experimental Restful API",
+  "description": "alert sending API",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HectorGit/practiceApi.git"
+    "url": "git+https://github.com/HectorGit/alert-sender.git"
   },
   "keywords": [
     "API"
@@ -17,17 +17,21 @@
   "author": "Hector Perez",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/HectorGit/practiceApi/issues"
+    "url": "https://github.com/HectorGit/alert-sender/issues"
   },
-  "homepage": "https://github.com/HectorGit/practiceApi#readme",
+  "homepage": "https://github.com/HectorGit/alert-sender#readme",
   "dependencies": {
+    "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
+    "email-templates": "^8.0.4",
     "email-validator": "^2.0.4",
     "express": "^4.17.1",
     "joi": "^17.3.0",
     "l": "^0.6.0",
     "moment": "^2.29.1",
+    "node-schedule": "^2.0.0",
+    "nodemailer": "^6.6.0",
     "pg": "^8.5.1",
     "request": "^2.88.2",
     "underscore": "^1.12.0"
