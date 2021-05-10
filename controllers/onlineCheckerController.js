@@ -42,7 +42,7 @@ function send_email_ecom_down(){
 
     const mailOptions = {
         from: '"Ergonomyx Technologies Canada Inc." <hello@ergonomyx.ca>',
-        to: ['hectorandres.pv@ergonomyx.com'], //could be devteam 
+        to: ['hectorandres.pv@ergonomyx.com', 'devteam@ergonomyx.com'], //could be devteam 
         subject: 'ECOM is down',
         text: 'The Ecom site appears to be down,  also check app logs for false positives \n https://ergonomyx-ecommerce.herokuapp.com' 
     };
@@ -66,7 +66,7 @@ function send_email_api_down(){
 
     const mailOptions = {
         from: '"Ergonomyx Technologies Canada Inc." <hello@ergonomyx.ca>',
-        to: ['hectorandres.pv@ergonomyx.com'], //could be devteam 
+        to: ['hectorandres.pv@ergonomyx.com' , 'devteam@ergonomyx.com'], //could be devteam 
         subject: 'API is down',
         text: 'The Api site appears to be down, also check app logs for false positives \n https://ergonomyx-api.herokuapp.com' 
     };
